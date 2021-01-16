@@ -1,0 +1,128 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+				<!-- 上方欄位 -->
+				<div class="panel-heading">
+					<div class="panel-title">
+						<div class="row">
+							<div class="col-xs-6">
+								<h1></h5><span class="glyphicon glyphicon-shopping-cart"></span> 購物車</h1>
+							</div>
+							<div class="col-xs-6">
+								<button type="button" class="btn btn-primary btn-sm btn-block"onclick="location.href = '商品購物.html'">
+									<span class="glyphicon glyphicon-share-alt"></span> 繼續瀏覽商品
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 購物車內容部分 -->
+				<div class="panel-body" id="body">		
+				</div>
+
+				<!--底下欄位 -->
+				<div class="panel-footer">
+					<div class="row text-center">
+						<div class="col-xs-9">
+							<h4 class="text-right">總金額 :  <strong id='total'>0</strong></h4>
+						</div>
+						<div class="col-xs-3">
+							<button type="button" class="btn btn-success btn-block" onclick="clearCart()">
+								Checkout
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	// 偵測產品數量修改事件，總金額跟著變化
+	function amountChange(){
+		const am = document.querySelectorAll("input[type = 'number']")
+		for(i=0; i<am.length;i++){
+			am[i].addEventListener('change',function(event){
+				Count()
+				console.log("amount",event.target.value)
+			})
+		}
+	}	
+	
+	// 由 localStorage 載入購物車資料並顯示
+	function loadCart(){
+		let content = ""
+
+		for (var pId = 0; pId < localStorage.length ; pId++ ){ // 執行迴圈直到資料讀取完畢
+			let cart = JSON.parse(localStorage.getItem("p-"+ pId)) // localStorage 購物車內容轉換成物件型態
+			pName = cart.Name
+			pPrice = cart.Price
+			pAmount = cart.Amount 
+			let html = 
+			`
+			<div id="${pId}">
+				<div class="row" style="margin:10px 0px">
+					<div class="col-xs-4">
+						<h4 class="product-name"><strong >${pName}</strong></h4><h4><small>Product description</small></h4>
+					</div>
+					<div class="col-xs-6" style="margin:10px">
+						<div class="col-xs-6 text-right">
+							<h6><strong>${pPrice}</strong></h6>
+						</div>
+						<div class="col-xs-4">
+							<input type="number" class="form-control input-sm" name="amount" value="${pAmount}">
+						</div>
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-link btn-xs" onclick="removeItem(${pId})">
+								<span class="glyphicon glyphicon-trash"> </span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<hr>
+			</div>
+			`
+			content += html // 購物車新增一列內容
+		}
+		document.getElementById('body').innerHTML = content
+		Count()
+		amountChange()
+	}
+
+	// 計算總金額
+	function Count(){
+		let sum = 0
+		let price = document.querySelectorAll("h6 > strong")
+		let amount = document.querySelectorAll("input")
+		for(i=0; i<price.length; i++){
+			p = Number(price[i].innerHTML)
+			a = Number(amount[i].value)
+			sum += p * a
+		}
+		document.querySelector("#total").innerHTML = sum;
+	}
+
+	// 移除商品
+	function removeItem(pId){
+		document.getElementById(pId).innerHTML = '' // 清除該列內容的動態效果
+		localStorage.removeItem('products-'+ pId)
+		Count()
+	}
+
+	// 清除購物車
+	function clearCart(){
+		localStorage.clear()
+		location.href = '/'
+	}
+
+	// 登入提醒視窗
+	function alert_login(){
+		alert('請先登入')
+		location.href = '登入介面.html'
+	}
+</script>
+</body>
