@@ -1,0 +1,81 @@
+/* The root */
+.p-nested-dropdowns {
+    /* Border */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    background-color: #333;
+
+    /* Reset list styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    justify-content: flex-end;
+}
+
+.p-nested-dropdowns li {
+    /* Spacing */
+    padding: 8px;
+    color: white;
+
+    /* Used to position the sub dropdown */
+    position: relative;
+    width: 100px;
+}
+.p-nested-dropdowns li a{
+    text-decoration: none;
+    color:white;
+}
+
+/* The sub dropdown */
+.p-nested-dropdowns ul {
+    background-color: #333;
+    /* Border */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+
+    /* Hidden by default */
+    display: none;
+
+    /* Absolute position */
+    right: -1px;
+    position: absolute;
+    top: 100%;
+    text-align: center;
+
+    /* Reset styles */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    z-index: 9999;
+}
+
+/* Change background color of list item when being hovered */
+.p-nested-dropdowns li:hover {
+  background-color: #111;
+}
+
+/* Show the direct sub dropdown when hovering the list item */
+.p-nested-dropdowns li:hover > ul {
+    display: block;
+}
+
+.sidebar {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li {
+
+    padding: 8px;
+    position: relative;
+    color:white;
+}
+
+.sidebar li:hover {
+    background-color: black;
+}
